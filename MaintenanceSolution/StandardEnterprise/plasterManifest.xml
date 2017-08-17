@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plasterManifest
+  schemaVersion="1.0" xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
+  <metadata>
+    <name>MaintenanceOla</name>
+    <id>1770e6b9-e1d0-4bae-a6c9-2a7ba02c90f2</id>
+    <version>1.0.0</version>
+    <title>Maintenance Ola Solution</title>
+    <description>Maintenance plans using Ola Solution</description>
+    <author></author>
+    <tags></tags>
+  </metadata>
+  <parameters>
+  <parameter name="FriendlyName" type="text" prompt="Application friendly name?"  default='MyApplication' />
+  <parameter name="InstanceName" type="text" prompt="SQL Server instance name?"  default='SQLSERVER\INSTANCE' />
+  <parameter name="SQLBackupPath" type="text" prompt="SQL Server backup path?"  default='S:\SQLBKP' />
+  <parameter name="DBMaintenance" type="text" prompt="database where is located Ola stored procedure?"  default='master' />
+  <parameter name="SQLLogPath" type="text" prompt="Jobs log path"  default='D:\SQL\MSSQL13.MSSQLSERVER\Logs' />
+  <parameter name="operator" type="text" prompt="Operator name (not email)"  default='oncalloperator' />
+   
+  </parameters>
+  <content>
+   <templateFile source='01 - Bkp - ALL_DATABASES - FULL.sql' destination='01-Bkp-ALL_DATABASES-FULL_$($PLASTER_PARAM_INSTANCENAME -replace (&apos;\\&apos;,&apos;_&apos;)).sql'/>
+   <templateFile source='02 - Bkp - ALL_DATABASES - LOG.sql' destination='02-Bkp-ALL_DATABASES-LOG_$($PLASTER_PARAM_INSTANCENAME -replace (&apos;\\&apos;,&apos;_&apos;)).sql'/>
+   <templateFile source='03 - Chk - ALL_DATABASES.sql' destination='03-Chk-ALL_DATABASES_$($PLASTER_PARAM_INSTANCENAME -replace (&apos;\\&apos;,&apos;_&apos;)).sql'/>
+   <templateFile source='04 - Index - ALL_DATABASES.sql' destination='04-Index-ALL_DATABASES_$($PLASTER_PARAM_INSTANCENAME -replace (&apos;\\&apos;,&apos;_&apos;)).sql'/>
+   <templateFile source='05 - Stat - ALL_DATABASES.sql' destination='05-Stat-ALL_DATABASES_$($PLASTER_PARAM_INSTANCENAME -replace (&apos;\\&apos;,&apos;_&apos;)).sql'/>
+  </content>
+</plasterManifest>

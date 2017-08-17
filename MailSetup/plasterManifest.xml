@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plasterManifest
+  schemaVersion="1.0" xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
+  <metadata>
+    <name>DatabaseMailSetup</name>
+    <id>4b21c347-7029-4918-8309-23075d4f0c51</id>
+    <version>1.0.0</version>
+    <title>Databasemail Setup</title>
+    <description>Sets up the database mail and operators</description>
+    <author></author>
+    <tags></tags>
+  </metadata>
+  <parameters>
+   <parameter name="InstanceName" type="text" prompt="SQL Server instance name?"  default='SQLSERVER\INSTANCE' />
+   <parameter name="smtpserver" type="text" prompt="smtp server name?"  default='mail.customer.dom' />
+   <parameter name="smtpport" type="text" prompt="smtp server port?"  default='25' />
+   <parameter name="testemailaddress" type="text" prompt="test email address?"  default='group@domain.dom' />
+   <parameter name="maildomain" type="text" prompt="maildomain for from address?"  default='monitoringdomain.dom' />   
+   <parameter name="operatorcsv" type="text" prompt="CSV List of Operators?"  default='C:\temp\operators.csv' />   
+   </parameters>
+  <content>
+    <templateFile source='01-databasemailsetup.sql' destination='01-databasemailsetup_$($PLASTER_PARAM_INSTANCENAME -replace (&apos;\\&apos;,&apos;_&apos;)).sql'/>
+	<templateFile source='02-createoperators.sql' destination='02-createoperators_$($PLASTER_PARAM_INSTANCENAME -replace (&apos;\\&apos;,&apos;_&apos;)).sql'/>
+  </content>
+</plasterManifest>
